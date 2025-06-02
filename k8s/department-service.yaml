@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-department
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employee-department
+  template:
+    metadata:
+      labels:
+        app: employee-department
+    spec:
+      containers:
+        - name: employee-department
+          image: updateimage.amazonaws.com/employee-department:latest
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: employee-department
+spec:
+  type: LoadBalancer              # ✅ Added to expose externally
+  selector:
+    app: employee-department
+  ports:
+    - port: 80                    # ✅ Exposed externally on port 80
+      targetPort: 8080            # ✅ Forwards to container's 8080
