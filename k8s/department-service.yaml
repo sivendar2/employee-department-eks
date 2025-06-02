@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: employee-department
-          image: updateimage.amazonaws.com/employee-department:latest
+          image: 779846797240.dkr.ecr.us-east-1.amazonaws.com/employee-department-eks:latest
           ports:
             - containerPort: 8080
 
@@ -22,11 +22,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: employee-department
+  name: employee-department-service
 spec:
-  type: LoadBalancer              # ✅ Added to expose externally
+  type: LoadBalancer
   selector:
     app: employee-department
   ports:
-    - port: 80                    # ✅ Exposed externally on port 80
-      targetPort: 8080            # ✅ Forwards to container's 8080
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
